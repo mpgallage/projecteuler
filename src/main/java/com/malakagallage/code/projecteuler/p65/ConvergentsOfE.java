@@ -1,11 +1,12 @@
 package com.malakagallage.code.projecteuler.p65;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.List;
 
 import com.malakagallage.code.projecteuler.util.EulerUtils;
+import com.malakagallage.code.projecteuler.util.EulerUtils.Numeral;
 
 /**
  * @author : maal (Malaka Gallage)
@@ -15,28 +16,19 @@ public class ConvergentsOfE {
 	
     public static void main(String[] args) {
     	
-    	BigInteger[] a = new BigInteger[101];
-    	BigInteger[] x = new BigInteger[101];
-    	BigInteger[] y = new BigInteger[101];
+    	List<Double> a = new ArrayList<>();
+    	a.add(2d);
     	
-    	a[1] = new BigInteger("2");
+    	for (double i = 1, j = 1; i < 100; i++) {
     	
-    	for (int i = 2, j = 1; i < 101; i++) {
-    	
-			a[i] = i  % 3 == 0 ? new BigInteger(String.valueOf(i * 2 / 3)) : new BigInteger("1");
+			a.add((i + 1)  % 3 == 0 ? (i + 1) * 2 / 3 : 1d);
 		}
     	
+    	System.out.println(a.toString());
     	
-    	x[100] = a[100];
-    	y[100] = new BigInteger("1");
+    	BigInteger x = EulerUtils.continuedFractionConvergence(a, Numeral.NUMERATOR);
     	
-    	for (int i = 99; i > 0; i--) {
-        	
-			x[i] = x[i + 1].multiply(new BigInteger(String.valueOf(a[i]))).add(y[i+1]);
-			y[i] = x[i + 1];
-		}
-    	
-    	String[] arr = x[1].toString().split("");
+    	String[] arr = x.toString().split("");
     	int sum = Arrays.stream(arr).mapToInt(Integer::parseInt).sum();
 
     	System.out.println(sum);

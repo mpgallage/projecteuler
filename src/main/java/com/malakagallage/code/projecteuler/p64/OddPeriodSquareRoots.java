@@ -1,5 +1,9 @@
 package com.malakagallage.code.projecteuler.p64;
 
+import java.util.List;
+
+import com.malakagallage.code.projecteuler.util.EulerUtils;
+
 /**
  * @author : maal (Malaka Gallage)
  * @since : 27/11/17
@@ -15,7 +19,8 @@ public class OddPeriodSquareRoots {
     		
     		if (sqrt != (long)sqrt) {
     	    	
-				if (expand(i, Math.floor(sqrt), 1, 0, 0) % 2 == 1) {
+    			List<Double> list = EulerUtils.expand(i);
+				if (list != null && list.size() % 2 == 0) {
 					count++;
 				}
     		}
@@ -24,39 +29,4 @@ public class OddPeriodSquareRoots {
     	System.out.println(count);
     }
     
-    private static double expand(double x, double a, double b, double startA, double startB) {		// b/(Math.sqrt(x) - a)
-    	
-    	double decider = (x - a * a);
-    	
-    	if (decider <= 0 || x <= 1 || a <= 0 || b <= 0) {
-    		return -1;
-    	}
-    	
-    	double start = Math.ceil(a * b / decider);
-    	double end = Math.floor(b / (Math.sqrt(x) - a));
-    	
-    	double nextA;
-    	double nextB = decider / b;
-    	
-    	for (double i = start; i <= end; i++) {
-    		
-    		nextA = i * decider / b - a;
-    		
-    		if (startA != 0 && startB != 0 && startA == nextA && startB == nextB) {
-    			return 0;
-    		}
-    		
-        	if (startA == 0 || startB == 0) {
-        		startA = nextA;
-        		startB = nextB;
-        	}
-    		
-    		double answer = expand(x, nextA, nextB, startA, startB);
-    		if (answer >= 0) {
-    			return 1 + answer;
-    		}
-    	}
-    	
-    	return -1;
-	}
 }
