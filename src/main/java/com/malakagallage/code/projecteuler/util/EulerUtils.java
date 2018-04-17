@@ -322,7 +322,7 @@ public class EulerUtils {
     
     public static double gcd(double a, double b) {
         BigInteger b1 = new BigInteger(doubleToString(a));
-        BigInteger b2 = new BigInteger(doubleToString(a));
+        BigInteger b2 = new BigInteger(doubleToString(b));
         BigInteger gcd = b1.gcd(b2);
         return Double.parseDouble(gcd.toString());
     }
