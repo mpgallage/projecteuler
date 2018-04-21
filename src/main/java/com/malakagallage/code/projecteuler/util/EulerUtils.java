@@ -1,12 +1,9 @@
 package com.malakagallage.code.projecteuler.util;
 
-import static com.malakagallage.code.projecteuler.util.EulerUtils.doubleToString;
-
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,16 +21,16 @@ public class EulerUtils {
     }
     
     public enum Numeral {
-    	
+
     	NUMERATOR(0),
     	DENOMINATOR(1);
-    	
+
     	private final int val;
-    	
+
     	Numeral(int val) {
     		this.val = val;
     	}
-    	
+
     }
 
     /**
@@ -255,11 +252,11 @@ public class EulerUtils {
      * @return the continued fraction list of x
      */
     public static List<Double> expand(double x) {
-    	
+
     	List<Double> list = expand(x, Math.floor(Math.sqrt(x)), 1, 0, 0);
     	list.add(Math.floor(x));
     	Collections.reverse(list);
-    	
+
     	return list;
     }
     
@@ -270,11 +267,11 @@ public class EulerUtils {
         if (decider <= 0 || x <= 1 || a <= 0 || b <= 0) {
             return null;
         }
-        
+
         if (startA == a && startB == b) {
             return new ArrayList<>();
         }
-        
+
         if (startA == 0 || startB == 0) {
             startA = a;
             startB = b;
@@ -284,7 +281,7 @@ public class EulerUtils {
         double nextA = startA - ((a + startA) % (decider / b));
 
         long y = (long) (b * (a + startA) / decider);
-        
+
         List<Double> list = expand(x, nextA, nextB, startA, startB);
         if (list != null) {
             list.add(new Double(y));
@@ -299,7 +296,7 @@ public class EulerUtils {
      * @return numerator or denominator of the convergent fraction
      */
     public static BigInteger continuedFractionConvergence(List<Double> list, Numeral numeral) {
-    	
+
         int size = list.size();
         BigInteger[] x = new BigInteger[size];
         BigInteger[] y = new BigInteger[size];
@@ -312,18 +309,32 @@ public class EulerUtils {
             x[i] = x[i + 1].multiply(new BigInteger(doubleToString(list.get(i)))).add(y[i + 1]);
             y[i] = x[i + 1];
         }
-        
+
         if (numeral == Numeral.DENOMINATOR) {
         	return y[0];
         }
-        
+
         return x[0];
     }
-    
+
+    public static double nCr(double n, double r) {
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+
     public static double gcd(double a, double b) {
         BigInteger b1 = new BigInteger(doubleToString(a));
         BigInteger b2 = new BigInteger(doubleToString(b));
         BigInteger gcd = b1.gcd(b2);
         return Double.parseDouble(gcd.toString());
+    }
+
+    public static double factorial(double n) {
+
+        double factorial = 1;
+
+        for (double i = 2; i <= n; i++) {
+            factorial *= i;
+        }
+        return factorial;
     }
 }
