@@ -1,8 +1,6 @@
 package com.malakagallage.code.projecteuler.p74;
 
 
-import com.malakagallage.code.projecteuler.util.EulerUtils;
-
 import java.util.*;
 
 /**
