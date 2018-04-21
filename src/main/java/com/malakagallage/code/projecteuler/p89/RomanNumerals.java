@@ -2,6 +2,7 @@ package com.malakagallage.code.projecteuler.p89;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.TreeMap;
 
 /**
  * @author : maal (Malaka Gallage)
@@ -10,6 +11,36 @@ import java.io.FileReader;
 public class RomanNumerals {
 	
 	private static final String[] numbers = new String[1000];
+
+    private final static TreeMap<Integer, String> roman = new TreeMap<>();
+    private final static TreeMap<String, Integer> arabic = new TreeMap<>();
+
+    static {
+
+        roman.put(1000, "M");
+        roman.put(900, "CM");
+        roman.put(500, "D");
+        roman.put(400, "CD");
+        roman.put(100, "C");
+        roman.put(90, "XC");
+        roman.put(50, "L");
+        roman.put(40, "XL");
+        roman.put(10, "X");
+        roman.put(9, "IX");
+        roman.put(5, "V");
+        roman.put(4, "IV");
+        roman.put(1, "I");
+
+        arabic.put("I", 1);
+        arabic.put("V", 5);
+        arabic.put("X", 10);
+        arabic.put("L", 50);
+        arabic.put("C", 100);
+        arabic.put("D", 500);
+        arabic.put("M", 1000);
+
+
+    }
 	
 	public static void main(String[] args) throws Exception {
         
@@ -22,7 +53,7 @@ public class RomanNumerals {
         	int oldLen = oldRoman.length();
         	int num = convertToInt(oldRoman);
         	
-        	String newRoman = convertToRoman(num);
+        	String newRoman = toRoman(num);
         	int newLen = newRoman.length();
         	
         	answer += oldLen - newLen;
@@ -53,6 +84,7 @@ public class RomanNumerals {
         } catch (Exception e) {
 			// ignore
 		}
+
 	}
 	
 	private static int convertToInt(String s) {
@@ -70,95 +102,17 @@ public class RomanNumerals {
     	int num = 0;
     	
     	for (String c : split) {
-    		num += R.valueOf(c).getVal();
-    	}
+    		num += arabic.get(c);
+        }
     	return num;
 	}
-	
-	private static String convertToRoman(int n) {
-		
-		String s = "";
-		for (int i = 6; i >= 0; i--) {
-			
-			
-			R r = R.values()[i];
-			int d = r.value;
-			int a = n / d;
-			
-			if (a != 0) {
-				
-				if (a == 4 || a == 9) {
-					s += optimize(a * d);
-				} else {
-					s += r.convert(a);
-				}
-				n -= a * d;
-				if (n == 0) break;
-			}
-		}
-		
-		return s;
-	}
-	
-	private static String optimize(int n) {
-		
-		String s = "";
-						
-		switch (n) {
-			case 4:
-				s = "IV";
-				break;
-			case 9:
-				s = "IX";
-				break;
-			case 40:
-				s = "XL";
-				break;
-			case 90:
-				s = "XC";
-				break;
-			case 400:
-				s = "CD";
-				break;
-			case 900:
-				s = "CM";
-				break;
-			default:
-				break;
-		}
-		
-		return s;
-	}
-	
-	private enum R {
-		
-		I(1),
-		V(5),
-		X(10),
-		L(50),
-		C(100),
-		D(500),
-		M(1000);
-		
-		private final int value;
-		
-		R(int value) {
-			this.value = value;
-		}
-		
-		public int getVal() {
-			return value;
-		}
-		
-		public String convert(int count) {
-			
-			String s = "";
-			
-			for (int i = 0; i < count; i++) {
-				s += this.toString();
-			}
-			
-			return s;
-		}
-	}
+
+    public static String toRoman(int number) {
+        int l =  roman.floorKey(number);
+        if ( number == l ) {
+            return roman.get(number);
+        }
+        return roman.get(l) + toRoman(number-l);
+    }
+
 }
