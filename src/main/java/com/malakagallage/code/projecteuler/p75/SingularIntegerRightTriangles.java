@@ -1,8 +1,5 @@
 package com.malakagallage.code.projecteuler.p75;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.malakagallage.code.projecteuler.util.EulerUtils;
 
 /**
