@@ -2,6 +2,7 @@ package com.malakagallage.code.projecteuler.p82;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Arrays;
 
 /**
  * @author : maal (Malaka Gallage)
@@ -9,7 +10,7 @@ import java.io.FileReader;
  */
 public class PathSumThreeWays {
 
-	private static final int LIMIT = 5;
+	private static final int LIMIT = 80;
 
 
 	private static final long[][] inArr = new long[LIMIT + 2][LIMIT + 1];
@@ -27,7 +28,7 @@ public class PathSumThreeWays {
 			outArr[LIMIT + 1][i] = Integer.MAX_VALUE;
     	}
     	
-    	FileReader fr = new FileReader("src/main/resources/p082_matrix1.txt");
+    	FileReader fr = new FileReader("src/main/resources/p082_matrix.txt");
         BufferedReader br = new BufferedReader(fr);
         
         String line;
@@ -68,9 +69,9 @@ public class PathSumThreeWays {
 		}
 
 		long min = Long.MAX_VALUE;
-        for (int i = 1; i < LIMIT; i++) {
+        for (int i = 1; i <= LIMIT; i++) {
 
-			if (outArr[LIMIT][i] < min) {
+			if (outArr[i][LIMIT] < min) {
 				min = outArr[i][LIMIT];
 			}
 		}
@@ -84,9 +85,7 @@ public class PathSumThreeWays {
 			return Long.MAX_VALUE;
 		}
 
-		long min = inArr[i][j] + outArr[i][j - 1];
-
-		return Math.min(min, minUP(i - 1, j));
+        return inArr[i][j] + Math.min(outArr[i][j - 1], minDOWN(i - 1, j));
 	}
 
 	private static long minDOWN(int i, int j) {
@@ -95,8 +94,6 @@ public class PathSumThreeWays {
 			return Long.MAX_VALUE;
 		}
 
-		long min = inArr[i][j] + outArr[i][j - 1];
-
-		return Math.min(min, minDOWN(i + 1, j));
+		return inArr[i][j] + Math.min(outArr[i][j - 1], minDOWN(i + 1, j));
 	}
 }
