@@ -292,7 +292,7 @@ public class EulerUtils {
         
         List<Double> list = expand(x, nextA, nextB, startA, startB);
         if (list != null) {
-            list.add(new Double(y));
+            list.add((double) y);
             return list;
         }
 
@@ -365,5 +365,19 @@ public class EulerUtils {
     public static BigDecimal sqrtNewtonRaphson(BigDecimal c) {
     	
         return sqrtNewtonRaphson(c,new BigDecimal(1),new BigDecimal(1).divide(SQRT_PRE));
+    }
+
+    public static double nCr(double n, double r) {
+        return factorial(n) / (factorial(r) * factorial(n - r));
+    }
+
+    public static double factorial(double n) {
+
+        double factorial = 1;
+
+        for (double i = 2; i <= n; i++) {
+            factorial *= i;
+        }
+        return factorial;
     }
 }
